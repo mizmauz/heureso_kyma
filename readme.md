@@ -16,11 +16,17 @@
 Installing prerequisite tools:
 
 Postgres DB
-kubectl apply -f /
 
-Kafka/Kubernetes
+``` kubectl
+ kubectl apply -f /k8s/postgress 
+```
+
+Install Kafka, Zookeepr, AKQH
+
+``` kubectl
+ kubectl apply -f /k8s/postgress 
+```
 
 
 
-
-Code is available from Github Repository:
+Code is available from Github Repository: [Github](https://github.com/mizmauz/heureso_kyma)
