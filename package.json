@@ -1,7 +1,6 @@
 {
-  "name": "heureso_kyma",
-  "version": "1.0.0",
-  "dependencies": {
-
-  }
+    "name": "heureso_kyma",
+    "version": "1.0.0",
+    "dependencies": {
+    }
 }

@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: akhq
+    version: "0.20.0"
+    env: dev
+  name: akhq
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: akhq
+  template:
+    metadata:
+      labels:
+        app: akhq
+    spec:
+      containers:
+        - name: akhq
+          image: tchiotludo/akhq:0.21.0
+          env:
+            - name: AKHQ_CONFIGURATION
+              value: |
+                micronaut:
+                  server:
+                    context-path: "/akhq"
+                akhq:
+                  connections:
+                    local-kafka-server:
+                      properties:
+                        bootstrap.servers: "kafka.default.svc.cluster.local:29092"
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 0.5
+              memory: 1Gi
+            requests:
+              cpu: 125m
+              memory: 250M
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: akhq
+  name: akhq
+  namespace: default
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: web
+  selector:
+    app: akhq
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: akhq
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/ssl-redirect: "false"
+    traefik.http.middlewares.app-websecure-addsub.addPrefix.prefix: /ui
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/akhq"
+            backend:
+              service:
+                name: akhq
+                port:
+                  number: 80
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: akhq
+  namespace: default
+spec:
+  endpoints:
+    - path: /akhq/promethues
+      port: "28081"
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_service_label_domain
+          targetLabel: domain
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_service_label_bounded_context
+          targetLabel: bounded_context
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_service_label_subdomain
+          targetLabel: sub_domain
+      scheme: HTTP
+  selector:
+    matchLabels:
+      app: akhq
