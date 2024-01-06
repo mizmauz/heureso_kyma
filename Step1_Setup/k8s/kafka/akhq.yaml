@@ -80,30 +80,3 @@ spec:
                 name: akhq
                 port:
                   number: 80
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: akhq
-  namespace: default
-spec:
-  endpoints:
-    - path: /akhq/promethues
-      port: "28081"
-      relabelings:
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_service_label_domain
-          targetLabel: domain
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_service_label_bounded_context
-          targetLabel: bounded_context
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_service_label_subdomain
-          targetLabel: sub_domain
-      scheme: HTTP
-  selector:
-    matchLabels:
-      app: akhq

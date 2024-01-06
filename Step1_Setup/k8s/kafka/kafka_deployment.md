@@ -24,7 +24,7 @@ URL aufrufen und Topic prüfen
 localhost:9090/akhq
 
 #Listener erzeugen
-kubectl exec -ti testclient -- ./bin/kafka-console-consumer.sh --bootstrap-server kafka-demo:29092 --topic messages --from-beginning
+kubectl exec -ti testclient -- ./bin/kafka-console-consumer.sh --bootstrap-server kafka:29092 --topic messages --from-beginning
 
 #Producer session erzeugen
 kubectl exec -ti testclient -- ./bin/kafka-console-producer.sh --broker-list kafka:29092 --topic messages
