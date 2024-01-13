@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/heureso_kyma.iml" filepath="$PROJECT_DIR$/heureso_kyma.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Step2_Quarkus_Rest_UI5/quarkus_kafka/quarkus_kafka.iml" filepath="$PROJECT_DIR$/Step2_Quarkus_Rest_UI5/quarkus_kafka/quarkus_kafka.iml" />
     </modules>
   </component>
 </project>
