@@ -1,0 +1,21 @@
+#Quelle: https://learning.sap.com/learning-journey/deliver-side-by-side-extensibility-based-on-sap-btp-kyma-runtime/exposing-a-service-in-kyma-with-api-rules_deda1696-76e6-490e-bdcd-72ba26bb527b
+apiVersion: gateway.kyma-project.io/v1beta1
+kind: APIRule
+metadata:
+    name: hello-kyma
+    labels:
+        app.kubernetes.io/name: hello-kyma
+    annotations: {}
+spec:
+    gateway: kyma-system/kyma-gateway
+    #gateway: kyma-gateway.kyma-system.svc.cluster.local
+    rules:
+        - path: /.*
+          methods:
+              - GET
+          accessStrategies:
+              - handler: allow
+    service:
+        name: akhq
+        port: 80
+    host: hello-kyma.c-3045d8d.kyma.ondemand.com
