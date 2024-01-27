@@ -51,7 +51,7 @@ kubectl apply -f ./Step1_Setup/k8s/kafka
 - Redis
 
 ``` kubectl
- kubectl apply -f /k8s/redis
+ kubectl apply -f ./Step1_Setup/k8s/redis
 ```
 
 **Update the config in .kube environment**
