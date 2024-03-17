@@ -28,6 +28,12 @@ kubectl apply -f ./Step1_Setup/k8s/postgres
 - kubectl exec -it <postgres_pod> -- psql -U postgres
 ```
 
+- Get the hostname of the service
+``` kubectl
+kubectl apply -f ./Step1_Setup/k8s/dnsutils.yaml
+kubectl exec -ti dnsutils -- nslookup postgres
+```
+
 [Find useful commands for postgres here]( https://docs.vmware.com/en/VMware-SQL-with-Postgres-for-Kubernetes/1.9/tanzu-postgres-k8s/GUID-accessing.html)
 
 - Kafka, Zookeeper, AKQH
